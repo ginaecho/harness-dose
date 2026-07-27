@@ -25,6 +25,7 @@ jobs:
           python -m benchmark.l1_conformance
           python -m benchmark.l2_ablation
           python -m precedence.experiment
+          python -m precedence.live_agent
           python3 integrations/claude_code_hook.py --selftest
       - name: Smoke-test the demo + dashboard
         run: |

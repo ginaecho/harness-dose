@@ -97,12 +97,40 @@ record. That difference — from invisible influence to a stream of verdicts —
 the entire pitch of OpenHarness, now shown on the failure mode that actually
 hurt.
 
+## L5-live — the same study with real LLM agents
+
+`precedence/live_agent.py` crosses from mechanism to **efficacy**: 16 trials, one
+**fresh, memoryless** opus subagent per (skill × regime × rep), so no agent can
+see the grading key or another trial's result. The agent declares its actions;
+grading is deterministic policy-checking done *outside* the agents.
+
+| | embedded | governed |
+|---|---|---|
+| overall violation rate | **25%** | **0%** |
+| the failure that reproduced | **C4** (destructive act on ambiguous "…right?") | — |
+
+The finding is sharper than "governed wins everywhere," and it validates the
+incident's own conclusion. A capable model **already resolves the
+contradictions** (C1 branch, C2 trailer) and the scope case (C3) correctly even
+when the rules are embedded — it prefers the project rules over the harness
+defaults unprompted. The *only* failure that survived was the
+**under-specification** one: reading "the old build can be cleared, right?" as
+authorization and deleting. Precedence would never have caught it; the
+**deterministic gate** did. Report:
+[`precedence/reports/L5_live_agent.md`](../precedence/reports/L5_live_agent.md).
+
+## Running on Microsoft AGT
+
+The four rules also compile onto Microsoft's Agent Governance Toolkit and are
+enforced by its real `PolicyEvaluator` (precedence = `PolicyRule.priority`), with
+every decision matching the native L5 — see
+[`agt-integration.md`](agt-integration.md) and `make agt`.
+
 ## Honesty (per the methodology)
 
-This is a **synthetic** scenario that encodes a real incident and a real taxonomy.
-It proves the **mechanism** — an ordered, externalized layer removes
-ordering/scope/discretion failures and makes conflicts explicit and statically
-detectable. It does **not** prove real-agent efficacy; that requires running a
-live agent under the two regimes and grading its action stream, which is the
-natural next step (see [`evaluation-methodology.md`](evaluation-methodology.md),
-Q5).
+The scripted L5 proves the **mechanism**; L5-live shows **efficacy on a real
+model** (small n — directional, rerun with more reps to tighten). Both are marked
+synthetic-scenario / real-taxonomy in
+[`evaluation-methodology.md`](evaluation-methodology.md) (Q7). The live result's
+value is its *specificity*: it identifies which failure class actually survives a
+capable agent, rather than asserting a blanket win.

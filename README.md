@@ -153,7 +153,11 @@ and marks every dataset synthetic vs real.
   four-mistake incident across a skill family and shows **externalizing isn't the
   fix — the ordering is** (embedded 0/4 clean, externalized+bad-order 0/4,
   externalized+right-order **4/4**), with a FORGE-style static conflict scan that
-  catches the contradictions *before* running. See
+  catches the contradictions *before* running. A **live-agent** run (16 isolated,
+  memoryless opus subagents) crosses to efficacy: **25% → 0%** violations, and
+  pinpoints that the *only* failure surviving a capable model is
+  under-specification (destructive action on ambiguous authorization), not
+  contradiction — validating the incident's own conclusion. See
   [`docs/precedence.md`](docs/precedence.md).
 
 ## Built on Microsoft's Agent Governance Toolkit
