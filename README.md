@@ -14,12 +14,11 @@ or fail, event by event. Break the black box. Learn which harness wins at what.
 ## Watch the story
 
 A short walkthrough of the idea — why the harness is a black box, and what
-lifting it into a plugin layer unlocks. The player below is embedded inline on
-the GitHub README:
+lifting it into a plugin layer unlocks.
 
-https://github.com/ginaecho/open-harness/raw/refs/heads/gc/openharness-plugin-layer/docs/media/OpenHarness_Story.mp4
+[![OpenHarness — the story (click for the full narrated video)](docs/media/OpenHarness_Story.gif)](docs/media/OpenHarness_Story.mp4)
 
-▶ If your viewer doesn't render the player, [download the video](docs/media/OpenHarness_Story.mp4).
+▶ The preview above plays inline. **[Click it for the full narrated video](docs/media/OpenHarness_Story.mp4)** (with audio).
 
 ---
 
