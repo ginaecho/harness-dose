@@ -27,6 +27,9 @@ l2:
 l5:
 	python -m precedence.experiment
 
+agt:
+	python -m precedence.agt_demo
+
 hook:
 	python3 integrations/claude_code_hook.py --selftest
 

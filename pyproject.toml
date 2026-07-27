@@ -25,6 +25,9 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
+# Microsoft Agent Governance Toolkit — optional; enables openharness/agt.py to
+# enforce OpenHarness policies on AGT's real engine. See docs/agt-integration.md.
+agt = ["agent-governance-toolkit-core>=4.1.0"]
 
 [project.urls]
 Homepage = "https://github.com/ginaecho/open-harness"

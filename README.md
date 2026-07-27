@@ -156,6 +156,18 @@ and marks every dataset synthetic vs real.
   catches the contradictions *before* running. See
   [`docs/precedence.md`](docs/precedence.md).
 
+## Built on Microsoft's Agent Governance Toolkit
+
+OpenHarness composes with Microsoft's
+[Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit)
+(AGT, MIT): **AGT enforces, OpenHarness characterizes and proves.** The four
+lifted precedence rules compile into an AGT `PolicyDocument` and are enforced by
+AGT's real `PolicyEvaluator` (`priority` = our precedence) — verified in-container,
+every decision matching native L5. AGT is an optional dependency
+(`pip install agent-governance-toolkit-core`; `make agt`); the code degrades
+gracefully when it's absent. Full mapping and pitch in
+[`docs/agt-integration.md`](docs/agt-integration.md).
+
 ## Layout
 
 ```
