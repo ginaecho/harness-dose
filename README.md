@@ -3,7 +3,7 @@
 ### See the harness. Share the harness. Prove the harness works.
 
 [![CI](https://github.com/ginaecho/open-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/ginaecho/open-harness/actions/workflows/ci.yml)
-[![DOI](https://img.shields.io/badge/DOI-pending%20first%20release-blue)](docs/zenodo.md)
+[![DOI](https://zenodo.org/badge/1314056228.svg)](https://zenodo.org/badge/latestdoi/1314056228)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Plug it onto any agent and watch the harness live: rule invoked → applied → pass
