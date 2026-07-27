@@ -1,12 +1,20 @@
 name: Release
 
-# Push a tag like v0.1.0 to cut a GitHub Release. If this repository is enabled
-# on Zenodo (https://zenodo.org/account/settings/github/), the release is
-# archived automatically and a DOI is minted. See docs/zenodo.md.
+# Cut a GitHub Release either by pushing a tag (`v*`) or by running this
+# workflow manually (Actions → Release → Run workflow, or via the API). The
+# manual path creates the tag itself, so no local tag push is required. If this
+# repository is enabled on Zenodo (https://zenodo.org/account/settings/github/),
+# publishing the Release mints a DOI automatically. See docs/zenodo.md.
 
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create (e.g. v0.1.0)"
+        required: true
+        default: "v0.1.0"
 
 permissions:
   contents: write
@@ -23,7 +31,18 @@ jobs:
         run: |
           pip install -e ".[dev]"
           python -m pytest -q
-      - name: Create GitHub Release
+      - name: Resolve tag name
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create GitHub Release (mints the Zenodo DOI)
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag.outputs.value }}
+          name: ${{ steps.tag.outputs.value }}
           generate_release_notes: true
+          make_latest: true
