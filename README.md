@@ -130,7 +130,11 @@ enforces. That before/after lift is the whole idea, shown concretely.
 
 "It works" is three separable claims — each proved differently. All reproducible
 with `make prove` / `make test`; full write-up in
-[`docs/proving-it-works.md`](docs/proving-it-works.md).
+[`docs/proving-it-works.md`](docs/proving-it-works.md). The hard part is
+*evaluating a harness without grading its own homework* —
+[`docs/evaluation-methodology.md`](docs/evaluation-methodology.md) decomposes
+that into six questions, states what each benchmark does and does **not** prove,
+and marks every dataset synthetic vs real.
 
 - **L1 — it *measures* correctly.** Every module scored as a violation classifier
   over a 38-trace labeled corpus with adversarial near-misses → **F1 = 1.00**

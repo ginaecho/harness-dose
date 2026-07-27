@@ -1,5 +1,13 @@
 # Proving it works
 
+> **Read this alongside [`evaluation-methodology.md`](evaluation-methodology.md),**
+> which is skeptical about these very benchmarks: it decomposes "evaluate a
+> harness" into six questions, and states plainly that L1 below is **synthetic**
+> and proves only implementation correctness (Q1), L2 proves the gating
+> *mechanism* not real-agent *efficacy*, and the harder claims (real-corpus
+> coverage, judge-vs-human calibration, predictive validity of the cards) are
+> not yet built. The numbers here are necessary, not sufficient.
+
 "It works" is three separable claims. Each is proved differently, and conflating
 them is why agent-governance demos ring hollow. Everything here is reproducible:
 
