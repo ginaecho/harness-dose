@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use OpenHarness, please cite it as below."
+title: "OpenHarness: an observable, testable, priced plugin layer for agent behavioral rules"
+abstract: >-
+  OpenHarness removes behavioral rules from an agent's skills and re-mounts them
+  as a plugin layer above the agent. Each rule becomes a harness module with a
+  declared scope, a conformance check, and a price; binding is decided by the
+  layer, not the agent. The result is an observable stream of verdicts and a
+  per-module harness card — competence by task type, conformance, cost, and
+  momentum — that together form a transparency dashboard.
+type: software
+authors:
+  - given-names: Gina
+    family-names: Chen
+    email: gina.tcchen@gmail.com
+    alias: ginaecho
+version: 0.1.0
+date-released: 2026-07-27
+license: MIT
+repository-code: "https://github.com/ginaecho/open-harness"
+url: "https://github.com/ginaecho/open-harness"
+keywords:
+  - AI agents
+  - large language models
+  - agent harness
+  - observability
+  - AI governance
+  - guardrails
+  - conformance checking
+  - agent evaluation
+# After the first Zenodo release, replace the DOI below with the minted concept DOI.
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.0000000"
+    description: "Concept DOI (placeholder until the first Zenodo release is published)."
