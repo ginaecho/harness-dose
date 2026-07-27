@@ -1,0 +1,31 @@
+{
+  "title": "OpenHarness: an observable, testable, priced plugin layer for agent behavioral rules",
+  "description": "<p>OpenHarness makes one architectural move: it removes behavioral rules from an agent's skills and re-mounts them as a plugin layer <em>above</em> the agent, the way middleware sits above application code. Each rule becomes a <strong>harness module</strong> with a declared scope (when it binds), a conformance check (was it followed), and a price (what the check costs). Binding is decided by the layer, not by the agent's discretion.</p><p>Because a module has boundaries, its activity is loggable (an observable stream of verdicts: event &rarr; module bound with evidence &rarr; pass/fail) and evaluable as a unit (run a task with the module on and off, count passes and failures per task type, record what each check costs by tier). Accumulated over real usage, every module earns a <strong>harness card</strong> &mdash; competence by task type, live conformance split by severity, enforcement cost and accuracy, a momentum trend, and upstream news &mdash; and the cards form a dashboard. The harness stops being an invisible influence and becomes a characterized instrument: a materia medica of harnesses.</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Chen, Gina",
+      "affiliation": ""
+    }
+  ],
+  "keywords": [
+    "AI agents",
+    "large language models",
+    "agent harness",
+    "observability",
+    "AI governance",
+    "guardrails",
+    "conformance checking",
+    "agent evaluation",
+    "middleware"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ginaecho/open-harness",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
