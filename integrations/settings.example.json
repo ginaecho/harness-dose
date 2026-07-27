@@ -1,0 +1,16 @@
+{
+  "//": "Copy the hooks block into .claude/settings.json to mount OpenHarness on a real Claude Code session. Run from the repo root, or set OPENHARNESS_DIR to an absolute path for the event log.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|Bash|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 integrations/claude_code_hook.py"
+          }
+        ]
+      }
+    ]
+  }
+}

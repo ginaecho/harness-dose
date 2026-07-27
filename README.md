@@ -121,14 +121,40 @@ A module is just a `HarnessModule` value — export your own from any importable
 module. See [`docs/architecture.md`](docs/architecture.md) for the design and
 [`modules/tdd.py`](modules/tdd.py) for the smallest complete example.
 
+Each module is the behavioral rule **lifted out of a real skill** in
+[`skills/`](skills) — `skills/bug-fix` → `tdd`, `skills/data-query` → `pii-guard`,
+and so on. The skill says *what* to do; the module holds the *how* the layer
+enforces. That before/after lift is the whole idea, shown concretely.
+
+## Proving it works
+
+"It works" is three separable claims — each proved differently. All reproducible
+with `make prove` / `make test`; full write-up in
+[`docs/proving-it-works.md`](docs/proving-it-works.md).
+
+- **L1 — it *measures* correctly.** Every module scored as a violation classifier
+  over a 38-trace labeled corpus with adversarial near-misses → **F1 = 1.00**
+  after the benchmark caught and we fixed two real `pii-guard` bugs (a leaked
+  `ssn`, a false-flagged table name), now pinned as regression tests.
+- **L2 — enforcing it *improves outcomes*.** A/B ablation, 8 tasks × 30 seeds,
+  same seeded decisions both arms: residual violations **50% → 0%** with **task
+  success unchanged**, at ~4 retries/session. It even *measures* the
+  `tdd`-on-prototype friction the cards claim.
+- **L3 — it *plugs onto a real agent*.** A Claude Code `PostToolUse` hook turns
+  live tool calls into events and streams verdicts; `--selftest` verifies the
+  pipeline end-to-end. See [`integrations/`](integrations).
+
 ## Layout
 
 ```
-openharness/     the layer:  module · events · harness · checks · trace · card · dashboard · evaluate · cli
+openharness/     the layer:  module · events · harness · checks · trace · card · dashboard · evaluate · adapters · skills · cli
 modules/         the starter materia medica (tdd, pii-guard, …)
+skills/          real agent skills; each module is a rule lifted from one
+benchmark/       the proof harness: L1 conformance + L2 ablation + reports/
+integrations/    L3 — Claude Code hook + tool→event adapters
 examples/        demo_session.py — end-to-end run that writes dashboard.html
-tests/           pytest suite (harness semantics + card metrics)
-docs/            architecture.md · zenodo.md
+tests/           pytest suite (33 tests: semantics, cards, benchmark, integration)
+docs/            architecture.md · proving-it-works.md · zenodo.md
 ```
 
 ## Citing & DOI

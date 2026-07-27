@@ -20,6 +20,11 @@ jobs:
         run: pip install -e ".[dev]"
       - name: Run tests
         run: python -m pytest -q
+      - name: Prove it works (L1 + L2 + L3)
+        run: |
+          python -m benchmark.l1_conformance
+          python -m benchmark.l2_ablation
+          python3 integrations/claude_code_hook.py --selftest
       - name: Smoke-test the demo + dashboard
         run: |
           python -m examples.demo_session
