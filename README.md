@@ -130,7 +130,9 @@ enforces. That before/after lift is the whole idea, shown concretely.
 
 "It works" is three separable claims — each proved differently. All reproducible
 with `make prove` / `make test`; full write-up in
-[`docs/proving-it-works.md`](docs/proving-it-works.md). The hard part is
+[`docs/proving-it-works.md`](docs/proving-it-works.md). A step-by-step,
+case-by-case verification guide is in
+[`docs/how-it-was-tested.md`](docs/how-it-was-tested.md). The hard part is
 *evaluating a harness without grading its own homework* —
 [`docs/evaluation-methodology.md`](docs/evaluation-methodology.md) decomposes
 that into six questions, states what each benchmark does and does **not** prove,
