@@ -11,6 +11,22 @@ or fail, event by event. Break the black box. Learn which harness wins at what.
 
 ---
 
+## Watch the story
+
+A short walkthrough of the idea — why the harness is a black box, and what
+lifting it into a plugin layer unlocks.
+
+https://github.com/ginaecho/open-harness/raw/main/docs/media/OpenHarness_Story.mp4
+
+<video src="https://github.com/ginaecho/open-harness/raw/main/docs/media/OpenHarness_Story.mp4" controls width="100%"></video>
+
+- 🎬 **Video** — [`docs/media/OpenHarness_Story.mp4`](docs/media/OpenHarness_Story.mp4)
+  (if the player above doesn't load, click to download and play)
+- 🖼️ **Interactive story** — [`docs/media/OpenHarness_Story.html`](docs/media/OpenHarness_Story.html)
+  — a self-contained page; download it and open in any browser
+
+---
+
 ## The problem: the harness is a black box
 
 Everyone who works seriously with agents builds a *harness* — the behavioral
