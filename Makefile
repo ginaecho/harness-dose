@@ -1,4 +1,4 @@
-.PHONY: help test demo prove l1 l2 hook dashboard clean
+.PHONY: help test demo prove l1 l2 l5 hook dashboard clean
 
 help:
 	@echo "OpenHarness — targets:"
@@ -7,6 +7,7 @@ help:
 	@echo "  make prove      run L1 + L2 benchmarks and the L3 hook self-test"
 	@echo "  make l1         L1 conformance-detection benchmark"
 	@echo "  make l2         L2 enforcement ablation"
+	@echo "  make l5         L5 precedence & conflict ablation"
 	@echo "  make hook       L3 live-hook self-test"
 	@echo "  make dashboard  build the harness-cards dashboard"
 	@echo "  make clean      remove generated artifacts"
@@ -23,13 +24,17 @@ l1:
 l2:
 	python -m benchmark.l2_ablation
 
+l5:
+	python -m precedence.experiment
+
 hook:
 	python3 integrations/claude_code_hook.py --selftest
 
-# The full proof package: measure (L1), improve (L2), plug onto an agent (L3).
-prove: l1 l2 hook
+# The full proof package: measure (L1), improve (L2), plug onto an agent (L3),
+# and fix ordering/conflict failures (L5).
+prove: l1 l2 l5 hook
 	@echo ""
-	@echo "✓ proof complete — see benchmark/reports/ for the numbers"
+	@echo "✓ proof complete — see benchmark/reports/ and precedence/reports/"
 
 dashboard:
 	python -m openharness.cli dashboard -o dashboard.html

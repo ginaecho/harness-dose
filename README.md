@@ -147,6 +147,14 @@ and marks every dataset synthetic vs real.
 - **L3 — it *plugs onto a real agent*.** A Claude Code `PostToolUse` hook turns
   live tool calls into events and streams verdicts; `--selftest` verifies the
   pipeline end-to-end. See [`integrations/`](integrations).
+- **L5 — it fixes *ordering* failures, the ones that actually bite.** Rules
+  interact: two in scope at once, resolved in the wrong order, and the agent errs
+  *while following a rule*. [`precedence/`](precedence) reproduces a real
+  four-mistake incident across a skill family and shows **externalizing isn't the
+  fix — the ordering is** (embedded 0/4 clean, externalized+bad-order 0/4,
+  externalized+right-order **4/4**), with a FORGE-style static conflict scan that
+  catches the contradictions *before* running. See
+  [`docs/precedence.md`](docs/precedence.md).
 
 ## Layout
 
@@ -154,11 +162,12 @@ and marks every dataset synthetic vs real.
 openharness/     the layer:  module · events · harness · checks · trace · card · dashboard · evaluate · adapters · skills · cli
 modules/         the starter materia medica (tdd, pii-guard, …)
 skills/          real agent skills; each module is a rule lifted from one
-benchmark/       the proof harness: L1 conformance + L2 ablation + reports/
+benchmark/       L1 conformance + L2 ablation + reports/
+precedence/      L5 — precedence/conflict layer, the A–D skill family + reports/
 integrations/    L3 — Claude Code hook + tool→event adapters
 examples/        demo_session.py — end-to-end run that writes dashboard.html
-tests/           pytest suite (33 tests: semantics, cards, benchmark, integration)
-docs/            architecture.md · proving-it-works.md · zenodo.md
+tests/           pytest suite (42 tests: semantics, cards, benchmark, integration, precedence)
+docs/            architecture.md · proving-it-works.md · precedence.md · evaluation-methodology.md · zenodo.md
 ```
 
 ## Citing & DOI

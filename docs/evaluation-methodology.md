@@ -47,6 +47,22 @@ rule can be perfectly implemented and still be the wrong rule. Questions 4–5 a
 *efficacy*. Question 6 is what OpenHarness is ultimately about: not "is this
 checker accurate" but "does the module's **characterization** hold out of sample."
 
+There is a seventh, and it is where the layer earns its keep:
+
+| # | Question | Method | Ground truth from | Circularity risk |
+|---|----------|--------|-------------------|------------------|
+| 7 | Does the layer resolve **rule interaction** correctly? (**precedence / conflict**) | static conflict scan + ordering ablation over a skill family | a real incident's taxonomy; the authoritative policy | low |
+
+Most rules are fine in isolation and fail in *combination* — two in scope at
+once, resolved in the wrong order, so the agent errs while following a rule.
+Question 7 asks whether externalizing the rules into an **ordered** layer removes
+those failures, and whether the contradictions can be caught **statically**
+before running. It is answered by **L5** (`precedence/`), which reproduces a real
+four-mistake incident and shows that precedence fixes contradiction, declarative
+scope fixes mis-scoping, a deterministic gate fixes authorization ambiguity — and
+that a FORGE-style static scan flags the contradictions but, correctly, *not* the
+under-specified failures. See [`precedence.md`](precedence.md).
+
 ## Anti-cheat principles
 
 1. **Provenance separation** — the entity that writes the checker does not write
@@ -99,6 +115,16 @@ Being explicit, because the whole point is not to overclaim.
   runs live end-to-end (verified by `--selftest`).
 - **Does NOT prove:** any accuracy or value claim — it is a plumbing/coverage
   demonstration.
+
+### L5 — `precedence/experiment.py` — **synthetic scenario, real taxonomy**
+
+- **Proves (Q7):** an ordered, externalized layer removes ordering-, scope-, and
+  discretion-induced failures across a skill family, and a static scan catches
+  the contradictions before runtime; externalizing *without* the right order does
+  not fix the contradictions (so the ordering, not the move, is the fix).
+- **Does NOT prove:** real-agent efficacy — the agent is scripted. It encodes a
+  real incident and its taxonomy; it does not yet show a live model behaves
+  better under the layer (that is Q5 applied to precedence).
 
 ### Not yet built
 
