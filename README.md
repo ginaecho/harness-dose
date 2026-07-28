@@ -1,13 +1,17 @@
-# OpenHarness
+# HarnessDose
 
-### See the harness. Share the harness. Prove the harness works.
+### See your harness. Tune your harness. Know it works.
 
 [![CI](https://github.com/ginaecho/open-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/ginaecho/open-harness/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/1314056228.svg)](https://zenodo.org/badge/latestdoi/1314056228)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Plug it onto any agent and watch the harness live: rule invoked → applied → pass
+Plug it onto any agent and watch your harness live: rule invoked → applied → pass
 or fail, event by event. Break the black box. Learn which harness wins at what.
+
+> The Python package and repository are named `openharness` / `open-harness`;
+> **HarnessDose** is the project name — the *materia medica* framing where every
+> rule is characterized like a dose you can measure.
 
 ---
 
@@ -16,63 +20,104 @@ or fail, event by event. Break the black box. Learn which harness wins at what.
 A short walkthrough of the idea — why the harness is a black box, and what
 lifting it into a plugin layer unlocks.
 
-[![OpenHarness — the story (click for the full narrated video)](docs/media/OpenHarness_Story.gif)](docs/media/OpenHarness_Story.mp4)
+[![HarnessDose — the story (click for the full narrated video)](docs/media/OpenHarness_Story.gif)](docs/media/OpenHarness_Story.mp4)
 
 ▶ The preview above plays inline. **[Click it for the full narrated video](docs/media/OpenHarness_Story.mp4)** (with audio).
 
 ---
 
-## The problem: the harness is a black box
+## The problem: your harness is a black box
 
 Everyone who works seriously with agents builds a *harness* — the behavioral
-rules that make the agent actually good: how it writes, how it develops code,
-how it touches sensitive data. That craft knowledge lives *inside* the agent's
-skills and prompt files, mixed in with everything else. You can't point at it,
-can't inspect it, can't test it, so you can't compare it. And *when* the rules
-fire is left to the agent's discretion, based on a title. That is not a harness
-at all.
+rules that make the agent actually good: how it should write, how it should
+develop code, how it should touch sensitive data. Your harness is deeply personal
+and project-specific: you tune it yourself, for your setup, through months of
+trial and error, chasing the workflow that finally clicks.
+
+But you're tuning blind. This craft knowledge lives *inside* the agent's skills
+and prompt files, mixed in with everything else — you can't easily point at any
+one rule, so testing whether it helps means designing a bespoke evaluation,
+running the task with and without it, and reading the traces by hand, every
+single time. It's doable, but it costs hours you don't have, so in practice almost
+no one does it. And when and how these rules get used? Mostly, you let the agent
+decide, based on a title. Then that is not a harness at all — it's a wish.
 
 ## The move: re-mount the rules as a layer above the agent
 
-OpenHarness makes one architectural move: **remove behavioral rules from the
-agent's skills and re-mount them as a plugin layer above the agent** — the way
-middleware sits above application code, managed separately, swapped
-independently.
+Our core idea is one architectural move: **move behavioral rules out of the
+agent's skills, and re-mount them as a plugin layer above the agent** — the way
+middleware sits above application code, managed separately, tuned independently.
 
 Each rule becomes a **harness module**: a small unit with a declared **scope**
 (*binds when the agent modifies code*, *binds when a query touches PII*), a
 **conformance check**, and a **price**. Binding is decided by the layer, not by
-the agent — the reins are held from outside. The agent underneath is unchanged:
-it keeps its task skills and does its work; the layer watches and verifies from
-above.
+the agent's discretion — the reins are finally held from outside. The agent
+underneath stays unchanged: it keeps its task skills and does its work; the
+harness layer watches and verifies from above.
 
-## What modularity unlocks
+## From buried text to a measurable object
 
-- **Observable.** A module has boundaries, so its activity is loggable:
-  *this event → this module bound (with evidence) → the trace complied, or it
-  didn't.* The harness becomes a stream of visible verdicts.
-- **Testable.** A module is a unit, so you evaluate it like one: run the same
-  task with it on and off (`on_off_delta`), score it against labeled runs
-  (`measure_accuracy`), and record what each check costs by tier.
+The point isn't modularity for its own sake — plenty of things are already
+modular. The point is that a rule with a boundary becomes something you can
+*instrument*: a variable you can log, score, and chart, instead of a few lines of
+instructions buried in a prompt whose effect you can only guess at. That's the
+shift from craft to measurement, and it's what makes a dashboard possible.
 
-## The payoff: the harness-cards dashboard
+- **Observable.** Once a module has boundaries, its every activation is an event
+  you can capture: *this happened → this module bound (with the evidence that
+  triggered it) → the trace complied, or it didn't.* The harness stops being an
+  invisible influence buried in context and becomes a stream of verdicts you watch
+  in real time — the difference between suspecting a rule fired and seeing it fire,
+  pass, or fail on screen.
+- **Testable.** A module is a unit with a scope and check defined once, so the
+  evaluation becomes *standing* instead of bespoke: after you declare it, every
+  future session scores the module automatically — no hand-rolled test design per
+  rule. Run the same task with the module on and off and measure the difference;
+  count its passes and failures per task type; record what each check costs
+  (deterministic trace check ≈ free, static rule ≈ cheap, LLM judge ≈ priced, with
+  stated accuracy). The hours of manual evaluation collapse into a number that
+  accrues on its own.
 
-Accumulate observation and testing over real usage and every module earns a
-**harness card**. Each card answers, in numbers instead of anecdotes:
+## The payoff: your harness cards dashboard
 
-- **What is it good at?** — a competence score per task type (tdd nails
-  `bug_fix`, scores 0 on `prototype`, so you know when *not* to use it).
-- **Is it being followed?** — a live conformance verdict, split by severity.
-- **What does it cost to enforce?** — the check tier, its accuracy, tokens per
-  check. Enforcement as a displayed price.
-- **Is it earning its place?** — a momentum trend across your recent sessions.
-- **What's happening upstream?** — new versions from the source repo, impact
-  analysis, and conflicts with your other modules.
+Accumulate that observation and testing over your real usage, and every module
+earns a **harness card** — and the cards form your dashboard, the transparency you
+need to tune well. Each card answers, with numbers instead of hunches:
 
-> The harness is the object of study, not the agent. Observability tools X-ray
-> one run to diagnose it; we characterize `tdd` itself — where it wins, where
-> it's useless — as a reusable instrument. Clinical diagnosis vs. pharmacology:
-> we build a **materia medica of harnesses**.
+- **What is it good at?** — a competence profile per task type: `tdd` scores 92 on
+  bug fixing but 38 on prototyping, so you know when to switch it on and when to
+  leave it off.
+- **Is it being followed?** — a live conformance verdict: passes, failures, and
+  errors caught, split by severity (critical vs. minor).
+- **What does it cost you?** — the check tier, its accuracy, and tokens per check —
+  so you can weigh whether a rule is worth its price in your loop.
+- **Is it earning its place?** — a momentum trend: which of your modules are
+  pulling their weight in real sessions, and which are dead weight you can retire.
+- **What's happening upstream?** — news from each module's parent: new versions
+  from its source repo, impact analysis ("this upstream change would fail 2 of your
+  recent runs"), conflicts with your other modules, and modules worth trying.
+
+Together, the dashboard turns "which harness gives me the best workflow?" from a
+months-long feel into a question you can read off the cards.
+
+## What makes this different: the harness is the object of study, not the agent
+
+Observability tools study the agent — the trace is an X-ray, the goal is
+diagnosis. We invert it: the **harness module is the object, the agent is just the
+test rig.** You don't want to understand agent #1187; you want to characterize
+`tdd` (test-driven development — write the failing test first, then the code that
+passes it) — where it wins, where it's useless — as an instrument in your kit.
+It's clinical diagnosis vs. pharmacology: they examine one patient's run; we build
+you a *materia medica of harnesses* that tells you which instrument to reach for
+given the task in front of you.
+
+## Why this matters
+
+Skills define *what* agents do. Security policy decides *whether* they may.
+**HarnessDose takes the *how* out of the black box — and puts it on a dashboard
+you can tune by.**
+
+---
 
 ## Quick start
 
@@ -164,9 +209,9 @@ and marks every dataset synthetic vs real.
 
 ## Built on Microsoft's Agent Governance Toolkit
 
-OpenHarness composes with Microsoft's
+HarnessDose composes with Microsoft's
 [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit)
-(AGT, MIT): **AGT enforces, OpenHarness characterizes and proves.** The four
+(AGT, MIT): **AGT enforces, HarnessDose characterizes and proves.** The four
 lifted precedence rules compile into an AGT `PolicyDocument` and are enforced by
 AGT's real `PolicyEvaluator` (`priority` = our precedence) — verified in-container,
 every decision matching native L5. AGT is an optional dependency
@@ -177,20 +222,20 @@ gracefully when it's absent. Full mapping and pitch in
 ## Layout
 
 ```
-openharness/     the layer:  module · events · harness · checks · trace · card · dashboard · evaluate · adapters · skills · cli
+openharness/     the layer:  module · events · harness · checks · trace · card · dashboard · evaluate · adapters · skills · govern · agt · cli
 modules/         the starter materia medica (tdd, pii-guard, …)
 skills/          real agent skills; each module is a rule lifted from one
 benchmark/       L1 conformance + L2 ablation + reports/
-precedence/      L5 — precedence/conflict layer, the A–D skill family + reports/
+precedence/      L5 — precedence/conflict layer, the A–D skill family, live-agent + AGT demos + reports/
 integrations/    L3 — Claude Code hook + tool→event adapters
 examples/        demo_session.py — end-to-end run that writes dashboard.html
-tests/           pytest suite (42 tests: semantics, cards, benchmark, integration, precedence)
-docs/            architecture.md · proving-it-works.md · precedence.md · evaluation-methodology.md · zenodo.md
+tests/           pytest suite (47 tests: semantics, cards, benchmark, integration, precedence, AGT)
+docs/            architecture · proving-it-works · how-it-was-tested · precedence · evaluation-methodology · agt-integration · zenodo
 ```
 
 ## Citing & DOI
 
-OpenHarness is set up for a citable [Zenodo](https://zenodo.org) DOI on every
+HarnessDose is set up for a citable [Zenodo](https://zenodo.org) DOI on every
 release. The one-time owner consent step and the release flow are documented in
 [`docs/zenodo.md`](docs/zenodo.md). Metadata lives in
 [`CITATION.cff`](CITATION.cff) and [`.zenodo.json`](.zenodo.json); after the
